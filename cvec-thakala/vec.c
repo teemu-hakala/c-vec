@@ -6,7 +6,7 @@
 /*   By: thakala <thakala@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 10:28:30 by thakala           #+#    #+#             */
-/*   Updated: 2022/10/13 11:52:29 by thakala          ###   ########.fr       */
+/*   Updated: 2022/10/13 14:00:58 by thakala          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,4 +98,54 @@ int	vec_insert(t_vec *dst, void *src, uint64_t index)
 		return (VEC_ERROR);
 	}
 	return (VEC_SUCCESS);
+}
+
+int	vec_remove(t_vec *src, uint64_t index)
+{
+	ft_memcpy(&src->memory,
+		&src->memory[src->elem_size * (src->len - index)],
+		src->elem_size * (src->len - index));
+	return (VEC_SUCCESS);
+}
+
+int	vec_append(t_vec *dst, t_vec *src)
+{
+	uint64_t	dst_prev_len;
+
+	dst_prev_len = dst->len;
+	if (vec_resize(dst, dst->len + src->len) > 0)
+		ft_memcpy(&dst->memory[dst_prev_len],
+			&src->memory,
+			dst->elem_size * src->len);
+	return ((-(dst->memory == NULL)) | 0x1);
+}
+
+int vec_prepend(t_vec *dst, t_vec *src)
+{
+	return (vec_append(src, dst));
+}
+
+void	vec_iter(t_vec *src, void (*f) (void *))
+{
+	uint64_t	c;
+
+	c = 0;
+	while (c < src->len)
+		f(vec_get(src, c++));
+}
+
+int	vec_map(t_vec *dst, t_vec *src, void (*f) (void *))
+{
+	uint64_t	c;
+
+	vec_copy(dst, src);
+	c = 0;
+	while (c < src->len)
+		f(&dst[dst->elem_size * c++]);
+	return (VEC_SUCCESS);
+}
+
+int	vec_filter(t_vec *dst, t_vec *src, bool (*f) (void *))
+{
+	
 }

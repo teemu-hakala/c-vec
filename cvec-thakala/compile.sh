@@ -1,0 +1,1 @@
+gcc -g -fsanitize=address -include assert.h -include stdio.h -Wall -Wextra -Werror -Wpedantic -Wunreachable-code -Wtype-limits main.c vec.c -o vec.out

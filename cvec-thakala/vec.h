@@ -3,21 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   vec.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thakala <thakala@student.42.fr>            +#+  +:+       +#+        */
+/*   By: thakala <thakala@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 10:27:10 by thakala           #+#    #+#             */
-/*   Updated: 2022/10/13 11:51:10 by thakala          ###   ########.fr       */
+/*   Updated: 2022/10/16 12:02:31 by thakala          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VEC_H
 # define VEC_H
 
-# include "stdlib.h"
-# include "unistd.h"
-# include "string.h"
-# include "stdbool.h"
-# include "stdint.h"
+# include <stdlib.h>
+# include <unistd.h>
+# include <stdbool.h>
+# include <stdint.h>
 
 typedef struct s_vec
 {
@@ -54,6 +53,6 @@ void	*vec_find(t_vec *src, bool (*f) (void *));
 int		vec_map(t_vec *dst, t_vec *src, void (*f) (void *));
 int		vec_filter(t_vec *dst, t_vec *src, bool (*f) (void *));
 int		vec_reduce(void *dst, t_vec *src, void (*f) (void *, void *));
-void	vec_sort(t_vec *src, int (*f)(void *, void *));
+int		vec_sort(t_vec *src, int (*f)(void *, void *));
 
 #endif

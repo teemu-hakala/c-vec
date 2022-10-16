@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vec.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thakala <thakala@student.42.fr>            +#+  +:+       +#+        */
+/*   By: thakala <thakala@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 10:28:30 by thakala           #+#    #+#             */
-/*   Updated: 2022/10/13 14:00:58 by thakala          ###   ########.fr       */
+/*   Updated: 2022/10/16 12:02:45 by thakala          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,59 @@ int	vec_map(t_vec *dst, t_vec *src, void (*f) (void *))
 	return (VEC_SUCCESS);
 }
 
-int	vec_filter(t_vec *dst, t_vec *src, bool (*f) (void *))
+int	vec_filter(t_vec *dst, t_vec *src, bool (*f)(void *))
 {
-	
+	uint64_t	c;
+	void		*data;
+
+	c = -1;
+	while (++c < src->len)
+	{
+		data = src->memory[src->elem_size * c];
+		if (f(data))
+			vec_push(dst, data);
+	}
+}
+
+void	vec_reduce(void *acc, t_vec *src, void (*f)(void *, void *))
+{
+	uint64_t	c;
+
+	c = -1;
+	while (++c < src->len)
+		f(acc, src->memory[src->elem_size * c]);
+}
+
+static int	vec_swap(uint64_t elem_size, void *a, void *b)
+{
+	uint8_t		*swap;
+
+	swap = (uint8_t *)malloc(sizeof(uint8_t) * elem_size);
+	if (swap == NULL)
+		return (VEC_ERROR);
+	ft_memcpy(swap, a, elem_size);
+	ft_memcpy(a, b, elem_size);
+	ft_memcpy(b, swap, elem_size);
+	return (VEC_SUCCESS);
+}
+
+int	vec_sort(t_vec *src, int (*f)(void *, void *))
+{
+	uint64_t	c;
+
+	if (src->len == 0)
+		return ;
+	c = -1;
+	while (++c < src->len - 1)
+	{
+		if (f(src->memory[src->elem_size * c],
+				src->memory[src->elem_size * (c + 1)] > 0))
+		{
+			if (vec_swap(src->elem_size,
+					src->memory[src->elem_size * c],
+					src->memory[src->elem_size * (c + 1)]) < VEC_NON_ACTION)
+				return (VEC_ERROR);
+			c = -1;
+		}
+	}
 }

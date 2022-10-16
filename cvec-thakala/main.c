@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thakala <thakala@student.42.fr>            +#+  +:+       +#+        */
+/*   By: thakala <thakala@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 10:50:41 by thakala           #+#    #+#             */
-/*   Updated: 2022/10/13 13:59:48 by thakala          ###   ########.fr       */
+/*   Updated: 2022/10/16 11:46:33 by thakala          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,7 +234,7 @@ void	test_vec_map(void)
 	printf("test_vec_map successful!\n");
 }
 
-bool	filter_tester(void *src)
+static bool	filter_tester(void *src)
 {
 	return (*(int *)src % 2 == 0);
 }
@@ -255,6 +255,41 @@ void	test_vec_filter(void)
 	printf("test_vec_filter successful!\n");
 }
 
+void	reduce_tester(void *acc, void *src)
+{
+	*(int *)acc += *(int *)src;
+}
+
+void	test_vec_reduce(void)
+{
+	t_vec		t1;
+	static int	base[] = {1, 2, 3, 4, 5};
+	static int	result = 0;
+
+	assert(vec_from(&t1, base, 5, sizeof(int)) > 0);
+	vec_reduce(&result, &t1, reduce_tester);
+	assert(result == 15);
+	vec_free(&t1);
+	printf("test_vec_reduce successful!\n");
+}
+
+static int	cmp(void *a, void *b)
+{
+	return ((long)*(int *)a - *(int *)b);
+}
+
+void	test_vec_sort(void)
+{
+	t_vec		t1;
+	static int	base[] = {3, 2, 2, 7, 4};
+	static int	expect[] = {2, 2, 3, 4, 7};
+
+	assert(vec_from(&t1, base, 5, sizeof(int)) > 0);
+	vec_sort(&t1, cmp);
+	assert(memcmp(t1.memory, expect, sizeof(expect)) == 0);
+	printf("test_vec_sort successful!\n");
+}
+
 int	main(void)
 {
 	test_vec_new();
@@ -271,4 +306,7 @@ int	main(void)
 	test_vec_prepend();
 	test_vec_iter();
 	test_vec_map();
+	test_vec_filter();
+	test_vec_reduce();
+	test_vect_sort();
 }

@@ -6,7 +6,7 @@
 /*   By: thakala <thakala@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 10:50:41 by thakala           #+#    #+#             */
-/*   Updated: 2022/10/16 15:50:28 by thakala          ###   ########.fr       */
+/*   Updated: 2022/10/16 17:38:57 by thakala          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -288,6 +288,7 @@ void	test_vec_sort(void)
 	assert(vec_from(&t1, base, 5, sizeof(int)) > 0);
 	vec_sort(&t1, cmp);
 	assert(memcmp(t1.memory, expect, sizeof(expect)) == 0);
+	vec_free(&t1);
 	printf("test_vec_sort successful!\n");
 }
 

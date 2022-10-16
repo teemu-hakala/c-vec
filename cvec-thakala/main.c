@@ -6,11 +6,12 @@
 /*   By: thakala <thakala@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 10:50:41 by thakala           #+#    #+#             */
-/*   Updated: 2022/10/16 11:46:33 by thakala          ###   ########.fr       */
+/*   Updated: 2022/10/16 15:50:28 by thakala          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vec.h"
+#include <string.h>
 
 void	test_vec_new(void)
 {
@@ -195,9 +196,9 @@ void	test_vec_prepend(void)
 	printf("test_vec_prepend successful!\n");
 }
 
-void	iter_tester(int *elem)
+void	iter_tester(void *elem)
 {
-	*elem++;
+	(*(int *)elem)++;
 }
 
 void	test_vec_iter(void)
@@ -213,9 +214,9 @@ void	test_vec_iter(void)
 	printf("test_vec_iter successful!\n");
 }
 
-void	map_tester(int *src)
+void	map_tester(void *src)
 {
-	*src++;
+	(*(int *)src)++;
 }
 
 void	test_vec_map(void)
@@ -308,5 +309,5 @@ int	main(void)
 	test_vec_map();
 	test_vec_filter();
 	test_vec_reduce();
-	test_vect_sort();
+	test_vec_sort();
 }
